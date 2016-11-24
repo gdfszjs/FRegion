@@ -1,0 +1,8 @@
+# source svg file
+D:/drawing-4.svg
+# radius of pattern
+350
+# two angles of boundaries of sector
+90 123
+# the filename to save FR
+D:/data/drawing-4/FRegion.txt

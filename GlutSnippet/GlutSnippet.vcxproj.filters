@@ -1,0 +1,284 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="SVG">
+      <UniqueIdentifier>{94204bf1-fd14-432d-b401-888954747199}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Frame">
+      <UniqueIdentifier>{4edb64da-1ba4-4e2e-a4db-3a048cd24a2f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Misc">
+      <UniqueIdentifier>{e8f75aed-630d-498d-9035-b3fdd836713e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Deform2D">
+      <UniqueIdentifier>{b7d4bbb4-aaa3-42ba-82ed-d5ab397fad76}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="BP">
+      <UniqueIdentifier>{b228c5b2-f733-4016-9f26-b0d5f4096be1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FR">
+      <UniqueIdentifier>{bef1beee-233e-464d-80f6-970747b6d21d}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="ButtonClick.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CommonGl.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Frame.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FrameButton.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GLUTMain.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Frame3DSnippet.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Frame2DSnippet.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FrameChecker.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SliderClick.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FrameScroll.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SVGElement.cpp">
+      <Filter>SVG</Filter>
+    </ClCompile>
+    <ClCompile Include="SVGParser.cpp">
+      <Filter>SVG</Filter>
+    </ClCompile>
+    <ClCompile Include="SVGPath.cpp">
+      <Filter>SVG</Filter>
+    </ClCompile>
+    <ClCompile Include="SVGPathTokenizer.cpp">
+      <Filter>SVG</Filter>
+    </ClCompile>
+    <ClCompile Include="SVGPattern.cpp">
+      <Filter>SVG</Filter>
+    </ClCompile>
+    <ClCompile Include="FrameFunctionPanel.cpp">
+      <Filter>Frame</Filter>
+    </ClCompile>
+    <ClCompile Include="FrameFRegion.cpp">
+      <Filter>Frame</Filter>
+    </ClCompile>
+    <ClCompile Include="FrameFRStructure.cpp">
+      <Filter>Frame</Filter>
+    </ClCompile>
+    <ClCompile Include="CheckerClick.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Geo2D.cpp">
+      <Filter>Misc</Filter>
+    </ClCompile>
+    <ClCompile Include="FrameStructureBlend.cpp">
+      <Filter>Frame</Filter>
+    </ClCompile>
+    <ClCompile Include="Triangle\triangle.c">
+      <Filter>Misc</Filter>
+    </ClCompile>
+    <ClCompile Include="Deform2D\LinearAlgebra.cpp">
+      <Filter>Deform2D</Filter>
+    </ClCompile>
+    <ClCompile Include="Deform2D\RigidMeshDeformer2D.cpp">
+      <Filter>Deform2D</Filter>
+    </ClCompile>
+    <ClCompile Include="Deform2D\TriangleMesh.cpp">
+      <Filter>Deform2D</Filter>
+    </ClCompile>
+    <ClCompile Include="Deform2D\WmlExtTriangleUtils.cpp">
+      <Filter>Deform2D</Filter>
+    </ClCompile>
+    <ClCompile Include="FrameManifold.cpp">
+      <Filter>Frame</Filter>
+    </ClCompile>
+    <ClCompile Include="FrameSolidFlowerbed.cpp">
+      <Filter>Frame</Filter>
+    </ClCompile>
+    <ClCompile Include="TextureLoader.cpp">
+      <Filter>Misc</Filter>
+    </ClCompile>
+    <ClCompile Include="FrameMedialAxis.cpp">
+      <Filter>Frame</Filter>
+    </ClCompile>
+    <ClCompile Include="BpKernel.cpp">
+      <Filter>BP</Filter>
+    </ClCompile>
+    <ClCompile Include="Grid4ConnectedUndirectMRF.cpp">
+      <Filter>BP</Filter>
+    </ClCompile>
+    <ClCompile Include="Deform2D\WmlLinearSystemExt.cpp">
+      <Filter>Deform2D</Filter>
+    </ClCompile>
+    <ClCompile Include="FRNode.cpp">
+      <Filter>FR</Filter>
+    </ClCompile>
+    <ClCompile Include="FRStructure.cpp">
+      <Filter>FR</Filter>
+    </ClCompile>
+    <ClCompile Include="heat_processing.cpp">
+      <Filter>Misc</Filter>
+    </ClCompile>
+    <ClCompile Include="FRSTreeMRF.cpp">
+      <Filter>BP</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="ButtonClick.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CommonGl.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Common.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CommonCV.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Frame.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GLUTMain.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Frame3DSnippet.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Frame2DSnippet.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameSlider.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameChecker.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SliderClick.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameScroll.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SVGElement.h">
+      <Filter>SVG</Filter>
+    </ClInclude>
+    <ClInclude Include="SVGParser.h">
+      <Filter>SVG</Filter>
+    </ClInclude>
+    <ClInclude Include="SVGPath.h">
+      <Filter>SVG</Filter>
+    </ClInclude>
+    <ClInclude Include="SVGPathTokenizer.h">
+      <Filter>SVG</Filter>
+    </ClInclude>
+    <ClInclude Include="SVGPattern.h">
+      <Filter>SVG</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameFunctionPanel.h">
+      <Filter>Frame</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameFRegion.h">
+      <Filter>Frame</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameFRStructure.h">
+      <Filter>Frame</Filter>
+    </ClInclude>
+    <ClInclude Include="CheckerClick.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Geo2D.h">
+      <Filter>Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameStructureBlend.h">
+      <Filter>Frame</Filter>
+    </ClInclude>
+    <ClInclude Include="Triangle\triangle.h">
+      <Filter>Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="Deform2D\LinearAlgebra.h">
+      <Filter>Deform2D</Filter>
+    </ClInclude>
+    <ClInclude Include="Deform2D\RigidMeshDeformer2D.h">
+      <Filter>Deform2D</Filter>
+    </ClInclude>
+    <ClInclude Include="Deform2D\rmsdebug.h">
+      <Filter>Deform2D</Filter>
+    </ClInclude>
+    <ClInclude Include="Deform2D\TriangleMesh.h">
+      <Filter>Deform2D</Filter>
+    </ClInclude>
+    <ClInclude Include="Deform2D\WmlExtTriangleUtils.h">
+      <Filter>Deform2D</Filter>
+    </ClInclude>
+    <ClInclude Include="Deform2D\WmlLinearSystemExt.h">
+      <Filter>Deform2D</Filter>
+    </ClInclude>
+    <ClInclude Include="ColorGradient.h">
+      <Filter>Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameManifold.h">
+      <Filter>Frame</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameSolidFlowerbed.h">
+      <Filter>Frame</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureLoader.h">
+      <Filter>Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameMedialAxis.h">
+      <Filter>Frame</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameButton.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BpKernel.h">
+      <Filter>BP</Filter>
+    </ClInclude>
+    <ClInclude Include="Grid4ConnectedUndirectMRF.h">
+      <Filter>BP</Filter>
+    </ClInclude>
+    <ClInclude Include="FRNode.h">
+      <Filter>FR</Filter>
+    </ClInclude>
+    <ClInclude Include="FRStructure.h">
+      <Filter>FR</Filter>
+    </ClInclude>
+    <ClInclude Include="heat_processing.h">
+      <Filter>Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="FRSTreeMRF.h">
+      <Filter>BP</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="FRegion.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,4 @@
+# FRegion filepath
+D:/data/drawing-4/FRegion.txt
+# FRStructure filepath
+D:/data/drawing-4/FRStructure.txt
