@@ -58,6 +58,8 @@ public:
 	void			BuildFRSTree							();
 	void			BuildFRSTreeTest						();
 	void			BuildTreeByCode							();
+
+	
 	FRSTree*		BuildTreeStructureForManifoldPosition	(int x, int y);
 	void			ComputeMostSimilarCandidatesForTree		(FRSTree * tree, std::vector<int> & corre);
 	void			DeformCandidates						(FRSTree * tree,const std::vector<int> & corre); 

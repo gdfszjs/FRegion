@@ -62,6 +62,7 @@ FrameStructureBlend::FrameStructureBlend(Frame * parent, int lx, int ly, int wid
 		{
 			std::vector<v2d> pts;
 			FRSNode * frs_node = frs_nodes[j];
+			frs_node->codeFRSNode(all_trees_[i]);
 			this->SamplePointsOfFRSNodeBoundary(all_trees_[i], frs_node, pts, FRS_NODE_SAMPLE_NUM);
 
 			this->tree_frsnodes_.push_back(frs_node);

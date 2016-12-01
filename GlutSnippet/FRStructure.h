@@ -15,6 +15,7 @@ public:
 	double				FirstEndpointGlobalProportion(FRSTree * tree);
 	double				SecondEndpointGlobalProportion(FRSTree * tree);
 	void				Compute_n_and_t_ByGlobalProportion(FRSTree * tree, double p, int & n, double & t);
+	void				codeFRSNode(FRSTree * tree);
 
 	void				BinaryTreeTo1DArray(int * arr, int index);
 

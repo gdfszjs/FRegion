@@ -80,14 +80,14 @@ void ButtonStructureBlendClick::onClick()
 	f_StructureBlend->setBkColor(255,255,255,255);
 	main_frame->addFrame(f_StructureBlend);
 
-	TextureLoader::Instance()->loadTexture("D:/textures/1.jpg",0);
+	/*TextureLoader::Instance()->loadTexture("D:/textures/1.jpg",0);
 	TextureLoader::Instance()->loadTexture("D:/textures/2.png",1);
 	TextureLoader::Instance()->loadTexture("D:/textures/3.jpg",2);
 	TextureLoader::Instance()->loadTexture("D:/textures/4.jpg",3);
 	TextureLoader::Instance()->loadTexture("D:/textures/5.jpg",4);
 	TextureLoader::Instance()->loadTexture("D:/textures/6.jpg",5);
 	TextureLoader::Instance()->loadTexture("D:/textures/7.jpg",6);
-	TextureLoader::Instance()->loadTexture("D:/textures/8.jpg",7);
+	TextureLoader::Instance()->loadTexture("D:/textures/8.jpg",7);*/
 }
 
 void ButtonMedialAxisClick::onClick()

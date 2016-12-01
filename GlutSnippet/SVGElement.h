@@ -48,6 +48,8 @@ public:
 	bool		ElementCompare				(SVGElement * e);
 
 	std::vector<ElementSeg*> segs_;
+
+
 private:
 	double min_x_;
 	double max_x_;
@@ -55,7 +57,6 @@ private:
 	double max_y_;
 	double centroid_x_;
 	double centroid_y_;
-
 	string guid_string_;
 }; // SVGElement
 
@@ -87,8 +88,12 @@ public:
 	virtual v2d	FirstVertex	() = 0;
 	virtual v2d LastVertex  () = 0;
 
+	virtual void getsamplepoint() {}
 	virtual bool ElementSegCompare(ElementSeg * es) { return false; }
+
+	std::vector<v2d> samplepoints;
 private:
+	
 }; // ElementSeg
 
 
@@ -115,9 +120,10 @@ public:
 	virtual v2d FirstVertex() { return pts_[0]; };
 	virtual v2d LastVertex () { return pts_[1]; };
 
+	virtual void getsamplepoint();
 	virtual bool ElementSegCompare(ElementSegLine * es);
 //private:
-	v2d pts_[2]; 
+	v2d pts_[2];
 }; // ElementSegLine
 
 class ElementSegBezier : public ElementSeg
@@ -144,6 +150,7 @@ public:
 	virtual v2d FirstVertex() { return pts_[0]; }
 	virtual v2d LastVertex () { return pts_[3]; }
 
+	virtual void getsamplepoint();
 	virtual bool ElementSegCompare(ElementSegBezier * es);
 //private:
 	v2d pts_[4];

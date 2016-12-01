@@ -365,6 +365,24 @@ double ElementSegLine::DistanceFromPoint(const v2d & pt)
 	return d;
 }
 
+void ElementSegLine::getsamplepoint()
+{
+	double half_num = 50.0;
+	for (int i = 0; i < half_num; i++)
+	{
+		double x = (pts_[0][0] + i / half_num * pts_[1][0]) / (1 + i / half_num);
+		double y = (pts_[0][1] + i / half_num * pts_[1][1]) / (1 + i / half_num);
+		this->samplepoints.push_back(_v2d_(x,y));
+	}
+
+	for (int i = 50; i < 50; i++)
+	{
+		double x = (pts_[1][0] + i / half_num * pts_[0][0]) / (1 + i / half_num);
+		double y = (pts_[1][1] + i / half_num * pts_[0][1]) / (1 + i / half_num);
+		this->samplepoints.push_back(_v2d_(x, y));
+	}
+}
+
 bool ElementSegLine::ElementSegCompare(ElementSegLine * es)
 {
 	//compare the two elementseg
@@ -524,6 +542,44 @@ double ElementSegBezier::DistanceFromPoint(const v2d & pt)
 	v2d tmp;
 	double d = Geo2D::DistanceBetweenPointBezier(tmp, pt, pts_[0], pts_[1], pts_[2], pts_[3]);
 	return d;
+}
+
+void ElementSegBezier::getsamplepoint()
+{
+	int numberOfPoints = 100;
+	float   dt;
+	int     i;
+	dt = 1.0 / (numberOfPoints - 1);
+
+	for (i = 0; i < numberOfPoints; i++)
+	{
+		float t = i*dt;
+		float ax, bx, cx;
+		float ay, by, cy;
+		float tSquared, tCubed;
+		double x;
+		double y;
+
+		/*計算多項式係數*/
+
+		cx = 3.0 * (pts_[1][0] - pts_[0][0]);
+		bx = 3.0 * (pts_[2][0] - pts_[1][0]) - cx;
+		ax = pts_[3][0] - pts_[0][0] - cx - bx;
+
+		cy = 3.0 * (pts_[1][1] - pts_[0][1]);
+		by = 3.0 * (pts_[2][1] - pts_[1][1]) - cy;
+		ay = pts_[3][1] - pts_[0][1] - cy - by;
+
+		/*計算位於參數值t的曲線點*/
+
+		tSquared = t * t;
+		tCubed = tSquared * t;
+
+		x = (ax * tCubed) + (bx * tSquared) + (cx * t) + pts_[0][0];
+		y = (ay * tCubed) + (by * tSquared) + (cy * t) + pts_[0][1];
+		cout << x << " " << y << endl;
+		this->samplepoints.push_back(_v2d_(x, y));
+	}
 }
 
 bool ElementSegBezier::ElementSegCompare(ElementSegBezier * es)
