@@ -17,6 +17,9 @@ extern "C"
 #include "GLUTMain.h"
 #include "FrameSolidFlowerbed.h"
 
+#include <io.h>
+#include <direct.h>
+
 #define FRS_NODE_SAMPLE_NUM 50
 
 FrameStructureBlend::FrameStructureBlend()
@@ -54,15 +57,51 @@ FrameStructureBlend::FrameStructureBlend(Frame * parent, int lx, int ly, int wid
 
 	for (size_t i = 0; i < this->all_trees_.size(); i++)
 	{
+		stringstream ss;
+		ss << "D:\\MRGTrueFile\\" << i + 1;
+		string dir = ss.str();
+		if (access(dir.c_str(), 0) == -1)
+		{
+			cout << dir << " is not existing" << endl;
+			cout << "now make it" << endl;
+			int flag = mkdir(dir.c_str());
+			if (flag == 0)
+			{
+				cout << "make successfully" << endl;
+			}
+			else 
+			{
+				cout << "make errorly" << endl;
+			}
+		}
 		std::vector<FRSNode*>	frs_nodes;
 		std::vector<int>		frs_node_codes;
 		this->all_trees_[i]->GetLeafNodesAndArrayIndices(frs_nodes, frs_node_codes);
 
 		for (size_t j = 0; j < frs_nodes.size(); j++)
 		{
+
+			stringstream ss;
+			ss << "D:\\MRGTrueFile\\" << i + 1 << "\\" << j + 1;
+			string dir = ss.str();
+			if (access(dir.c_str(), 0) == -1)
+			{
+				cout << dir << " is not existing" << endl;
+				cout << "now make it" << endl;
+				int flag = mkdir(dir.c_str());
+				if (flag == 0)
+				{
+					cout << "make successfully" << endl;
+				}
+				else
+				{
+					cout << "make errorly" << endl;
+				}
+			}
+
 			std::vector<v2d> pts;
 			FRSNode * frs_node = frs_nodes[j];
-			frs_node->codeFRSNode(all_trees_[i]);
+			frs_node->codeFRSNode(all_trees_[i], i, j);
 			this->SamplePointsOfFRSNodeBoundary(all_trees_[i], frs_node, pts, FRS_NODE_SAMPLE_NUM);
 
 			this->tree_frsnodes_.push_back(frs_node);
@@ -917,9 +956,9 @@ void FrameStructureBlend::BuildFRSTreeforfiletest(ofstream  & outfile)
 		}
 
 		corre_indices.push_back(min_idx);
-		
+
 	}
-	
+
 	for (int i = 0; i < corre_indices.size(); i++)
 		this->gen_frs_tree_->correc_indec.push_back(corre_indices.at(i));
 
@@ -1029,7 +1068,7 @@ vector<int> FrameStructureBlend::BuildFRSTreeforseletindex()
 
 		corre_indices.push_back(min_idx);
 	}
-	
+
 	return corre_indices;
 }
 

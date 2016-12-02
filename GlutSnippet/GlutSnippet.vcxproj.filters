@@ -144,6 +144,9 @@
     <ClCompile Include="FRSTreeMRF.cpp">
       <Filter>BP</Filter>
     </ClCompile>
+    <ClCompile Include="reeb_graph.cpp">
+      <Filter>FR</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ButtonClick.h">
@@ -274,6 +277,9 @@
     </ClInclude>
     <ClInclude Include="resource.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="reeb_graph.h">
+      <Filter>FR</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

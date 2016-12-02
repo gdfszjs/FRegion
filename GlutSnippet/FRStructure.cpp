@@ -105,7 +105,7 @@ void FRSNode::Compute_n_and_t_ByGlobalProportion(FRSTree * tree, double p, int &
 	t = node->LengthTo_t(l);
 }
 
-void FRSNode::codeFRSNode(FRSTree * tree)
+void FRSNode::codeFRSNode(FRSTree * tree, int treenum, int partnum)
 {
 	//计算区域最高点
 	double h_x = 0;
@@ -193,137 +193,217 @@ void FRSNode::codeFRSNode(FRSTree * tree)
 	vector<vector<vector<v2d>>> range_vector;
 	for (int i = 0; i < rangeindex; i++)
 	{
-		
-		vector<vector<int>> candidate_ele;
+		vector<vector<v2d>> point_vilage_vector;
+		range_vector.push_back(point_vilage_vector);
+	}
+	vector<v4d> range_message;
+	vector<int> point_vilage;
+	for (int i = 0; i < rangeindex; i++)
+	{
 		double range_l = i * (1.0 / rangeindex);
 		double range_u = (i + 1) * (1.0 / rangeindex);
 
-		double height_l = i * (height / rangeindex);
-		double height_u = (i + 1) * (height / rangeindex);
+		double height_l = l_y + i * (height / rangeindex);
+		double height_u = l_y + (i + 1) * (height / rangeindex);
 
-		for (int i = 0; i < this->element_indices_.size(); i++)
+		range_message.push_back(_v4d_(range_l, range_u, height_l, height_u));
+	}
+
+	for (int i = 0; i < this->element_indices_.size(); i++)
+	{
+		vector<v3d> ele_vector;
+		SVGElement * e = tree->pattern_->elements_.at(this->element_indices_.at(i));
+
+		//concat all the segs
+		for (int j = 0; j < e->segs_.size(); j++)
 		{
-			vector<v2d> ele_vector;
-			vector<vector<int>> ele_vector2;
-			SVGElement * e = tree->pattern_->elements_.at(this->element_indices_.at(i));
-
-			for (int j = 0; j < e->segs_.size(); j++)
+			if (e->segs_.at(j)->SegType() == 0)
 			{
-				if (e->segs_.at(j)->SegType() == 0)
+				//is a line
+				for (int k = 0; k < e->segs_.at(j)->samplepoints.size(); k++)
 				{
-					//is a line
-					for (int k = 0; k < e->segs_.at(j)->samplepoints.size(); k++)
-					{
-						v2d geted_point = e->segs_.at(j)->samplepoints.at(k);
-						////the first point
-						//if (k == 0)
-						//{
-						//	if (ele_vector.size() != 0)
-						//	{
-						//		if (geted_point[0] == ele_vector.back()[0] && geted_point[1] == ele_vector.back()[1])
-						//		{
-						//			continue;
-						//		}
-						//		else
-						//		{
-						//			ele_vector.push_back(geted_point);
-						//		}
-						//	}
-						//	else ele_vector.push_back(geted_point);
-						//}
-						////the last point
-						//else if (k == e->segs_.at(j)->samplepoints.size() - 1)
-						//{
-						//	if (geted_point[0] == ele_vector.at(0)[0] && geted_point[1] == ele_vector.at(0)[1])
-						//	{
-						//		continue;
-						//	}
-						//	else
-						//	{
-						//		ele_vector.push_back(geted_point);
-						//	}
-						//}
-						////other point
-						//else
-						//{
-						//	ele_vector.push_back(geted_point);
-						//}
-						ele_vector.push_back(geted_point);
-					}
-					
+					v2d geted_point = e->segs_.at(j)->samplepoints.at(k);
+					ele_vector.push_back(_v3d_(geted_point[0], geted_point[1], 0));
 				}
-				if (e->segs_.at(j)->SegType() == 1)
+
+			}
+			if (e->segs_.at(j)->SegType() == 1)
+			{
+				//is a bezier
+				e->segs_.at(j)->getsamplepoint();
+				for (int k = 0; k < e->segs_.at(j)->samplepoints.size(); k++)
 				{
-					//is a bezier
-					e->segs_.at(j)->getsamplepoint();
-					for (int k = 0; k < e->segs_.at(j)->samplepoints.size(); k++)
+					int point_range = 0;
+					v2d geted_point = e->segs_.at(j)->samplepoints.at(k);
+					for (int l = 0; l < range_message.size(); l++)
 					{
-						v2d geted_point = e->segs_.at(j)->samplepoints.at(k);
-						////the first point
-						//if (k == 0)
-						//{
-						//	if (ele_vector.size() != 0) 
-						//	{
-						//		if (geted_point[0] == ele_vector.back()[0] && geted_point[1] == ele_vector.back()[1])
-						//		{
-						//			continue;
-						//		}
-						//		else
-						//		{
-						//			ele_vector.push_back(geted_point);
-						//		}
-						//	}
-						//	else ele_vector.push_back(geted_point);
-						//}
-						////the last point
-						//else if (k == e->segs_.at(j)->samplepoints.size() - 1)
-						//{
-						//	if (geted_point[0] == ele_vector.at(0)[0] && geted_point[1] == ele_vector.at(0)[1])
-						//	{
-						//		continue;
-						//	}
-						//	else
-						//	{
-						//		ele_vector.push_back(geted_point);
-						//	}
-						//}
-						////other point
-						//else
-						//{
-						//	ele_vector.push_back(geted_point);
-						//}
-						ele_vector.push_back(geted_point);
+						double s_y = geted_point[1];
+						double g_y_l = range_message.at(l)[2];
+						double g_y_u = range_message.at(l)[3];
+						if (s_y <= g_y_u)
+						{
+							if (s_y >= g_y_l)
+							{
+								point_range = l;
+							}
+						}
 					}
+					ele_vector.push_back(_v3d_(geted_point[0], geted_point[1], point_range));
 				}
 			}
-			
-			if (ele_vector.at(0)[0] == ele_vector.back()[0] && ele_vector.at(0)[1] == ele_vector.back()[1])
-			{
-				cout << "is a circle!"<< endl;
-			}
-			else
-			{
-				for (int j = 0; j < ele_vector.size(); j++)
-				{
-					if (ele_vector.at(j)[1] <= height_u && ele_vector.at(j)[1] >= height_l)
-					{
+		}
 
+		if (abs(ele_vector.at(0)[0] - ele_vector.back()[0]) <= 0.001 && abs(ele_vector.at(0)[1] == ele_vector.back()[1]) <= 0.001)
+		{
+			int start_index = 0;
+			cout << "is a circle!" << endl;
+			for (int j = 0; j < ele_vector.size(); j++)
+			{
+				if (j != 0 && j != ele_vector.size() - 1)
+				{
+					if (ele_vector.at(j)[2] != ele_vector.at(j - 1)[2])
+					{
+						start_index = j;
+						break;
+					}
+				}
+			}	
+			point_vilage.push_back(start_index);
+			int k = start_index + 1;
+			while (k != start_index)
+			{
+				if (k == ele_vector.size() - 1)
+				{
+					//the first point of a vector
+					if (ele_vector.at(k)[2] != ele_vector.at(k - 1)[2])
+					{
+						point_vilage.push_back(k);
+
+					}
+					//the last point of a vector
+					if (ele_vector.at(k)[2] != ele_vector.at(0)[2])
+					{
+						point_vilage.push_back(k);
+						point_vilage.push_back(ele_vector.at(k)[2]);
+					}
+				}
+				else if (k == 0)
+				{
+					//the first point of a vector
+					if (ele_vector.at(k)[2] != ele_vector.back()[2])
+					{
+						point_vilage.push_back(k);
+
+					}
+					//the last point of a vector
+					if (ele_vector.at(k)[2] != ele_vector.at(k + 1)[2])
+					{
+						point_vilage.push_back(k);
+						point_vilage.push_back(ele_vector.at(k)[2]);
+					}
+				}
+				else
+				{
+					if (ele_vector.at(k)[2] != ele_vector.at(k - 1)[2])
+					{
+						point_vilage.push_back(k);
+
+					}
+					//the last point of a vector
+					if (ele_vector.at(k)[2] != ele_vector.at(k + 1)[2])
+					{
+						point_vilage.push_back(k);
+						point_vilage.push_back(ele_vector.at(k)[2]);
 					}
 				}
 
-				for (int j = 0; j < candidate_ele.size(); j++)
+				if (k == ele_vector.size() - 1)
 				{
-
+					k = 0;
 				}
+				else
+				{
+					k++;
+				}
+			}
+
+			for (int j = 0; j < point_vilage.size(); j = j + 3)
+			{
+				vector<v2d> point_vector;
+				for (int k = point_vilage.at(j); k < point_vilage.at(j + 1); k++)
+				{
+					point_vector.push_back(_v2d_(ele_vector.at(k)[0], ele_vector.at(k)[1]));
+				}
+				range_vector.at(ele_vector.at(point_vilage.at(j))[2]).push_back(point_vector);
 			}
 
 		}
+		else
+		{
+
+			for (int j = 0; j < ele_vector.size(); j++)
+			{
+				if (j == 0)
+				{
+					point_vilage.push_back(j);
+				}
+				else if (j == ele_vector.size() - 1)
+				{
+					point_vilage.push_back(j);
+					point_vilage.push_back(ele_vector.at(j)[2]);
+				}
+				else
+				{
+					//the first point of a vector
+					if (ele_vector.at(j)[2] != ele_vector.at(j - 1)[2])
+					{
+						point_vilage.push_back(j);
+
+					}
+					//the last point of a vector
+					if (ele_vector.at(j)[2] != ele_vector.at(j + 1)[2])
+					{
+						point_vilage.push_back(j);
+						point_vilage.push_back(ele_vector.at(j)[2]);
+					}
+
+				}
+			}
+
+			for (int j = 0; j < point_vilage.size(); j = j + 3)
+			{
+				vector<v2d> point_vector;
+				for (int k = point_vilage.at(j); k < point_vilage.at(j + 1); k++)
+				{
+					point_vector.push_back(_v2d_(ele_vector.at(k)[0], ele_vector.at(k)[1]));
+				}
+				range_vector.at(ele_vector.at(point_vilage.at(j))[2]).push_back(point_vector);
+			}
+
+		}
+
 	}
+
+
 	//存储进文件中
-	for (size_t i = 0; i < this->element_indices_.size(); i++)
+	for (int i = 0; i < rangeindex; i++)
 	{
-		SVGElement *e = tree->pattern_->elements_.at(this->element_indices_.at(i));
+		stringstream ss;
+		string line;
+		ss << "D:\\MRGTrueFile\\" << treenum + 1 << "\\"<< partnum + 1 << "\\0 " << i << " " << i + 1 << ".txt";
+		cout << ss.str() << endl;
+		ofstream f1(ss.str());
+		for (int j = 0; j < range_vector.at(i).size(); j++)
+		{
+			f1 << "one node" << endl;
+			for (int k = 0; k < range_vector.at(i).at(j).size(); k++)
+			{
+				f1 << range_vector.at(i).at(j).at(k)[0] << " " << range_vector.at(i).at(j).at(k)[1] << endl;
+			}
+		}
+		f1.close();
 	}
+
 	cout << "end coding" << endl;
 }
 

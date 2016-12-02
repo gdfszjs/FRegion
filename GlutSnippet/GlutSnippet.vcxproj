@@ -193,6 +193,7 @@
     <ClCompile Include="Geo2D.cpp" />
     <ClCompile Include="GLUTMain.cpp" />
     <ClCompile Include="heat_processing.cpp" />
+    <ClCompile Include="reeb_graph.cpp" />
     <ClCompile Include="SliderClick.cpp" />
     <ClCompile Include="SVGElement.cpp" />
     <ClCompile Include="SVGParser.cpp" />
@@ -237,6 +238,7 @@
     <ClInclude Include="Geo2D.h" />
     <ClInclude Include="GLUTMain.h" />
     <ClInclude Include="heat_processing.h" />
+    <ClInclude Include="reeb_graph.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="SliderClick.h" />
     <ClInclude Include="SVGElement.h" />
