@@ -53,8 +53,6 @@ FrameStructureBlend::FrameStructureBlend(Frame * parent, int lx, int ly, int wid
 		this->all_trees_.push_back(tree);
 	}
 
-	this->CompleteFRSTree();
-
 	for (size_t i = 0; i < this->all_trees_.size(); i++)
 	{
 		stringstream ss;
@@ -62,46 +60,57 @@ FrameStructureBlend::FrameStructureBlend(Frame * parent, int lx, int ly, int wid
 		string dir = ss.str();
 		if (access(dir.c_str(), 0) == -1)
 		{
-			cout << dir << " is not existing" << endl;
-			cout << "now make it" << endl;
+			//cout << dir << " is not existing" << endl;
+			//cout << "now make it" << endl;
 			int flag = mkdir(dir.c_str());
 			if (flag == 0)
 			{
-				cout << "make successfully" << endl;
+				//cout << "make successfully" << endl;
 			}
-			else 
+			else
 			{
-				cout << "make errorly" << endl;
+				//cout << "make errorly" << endl;
 			}
 		}
 		std::vector<FRSNode*>	frs_nodes;
 		std::vector<int>		frs_node_codes;
 		this->all_trees_[i]->GetLeafNodesAndArrayIndices(frs_nodes, frs_node_codes);
-
 		for (size_t j = 0; j < frs_nodes.size(); j++)
 		{
 
 			stringstream ss;
 			ss << "D:\\MRGTrueFile\\" << i + 1 << "\\" << j + 1;
-			string dir = ss.str();
+			string dir = ss.str(); 
 			if (access(dir.c_str(), 0) == -1)
 			{
-				cout << dir << " is not existing" << endl;
-				cout << "now make it" << endl;
+				//cout << dir << " is not existing" << endl;
+				//cout << "now make it" << endl;
 				int flag = mkdir(dir.c_str());
 				if (flag == 0)
 				{
-					cout << "make successfully" << endl;
+					//cout << "make successfully" << endl;
 				}
 				else
 				{
-					cout << "make errorly" << endl;
+					//cout << "make errorly" << endl;
 				}
 			}
+			FRSNode * frs_node = frs_nodes[j];
+			frs_node->codeForTriangle(all_trees_[i], i, j);
+		}
+	}
 
+	this->CompleteFRSTree();
+
+	for (size_t i = 0; i < this->all_trees_.size(); i++)
+	{
+		std::vector<FRSNode*>	frs_nodes;
+		std::vector<int>		frs_node_codes;
+		this->all_trees_[i]->GetLeafNodesAndArrayIndices(frs_nodes, frs_node_codes);
+		for (size_t j = 0; j < frs_nodes.size(); j++)
+		{
 			std::vector<v2d> pts;
 			FRSNode * frs_node = frs_nodes[j];
-			frs_node->codeFRSNode(all_trees_[i], i, j);
 			this->SamplePointsOfFRSNodeBoundary(all_trees_[i], frs_node, pts, FRS_NODE_SAMPLE_NUM);
 
 			this->tree_frsnodes_.push_back(frs_node);

@@ -68,7 +68,9 @@ public:
 	static void					FreeTriangulateio			(triangulateio ** pptio, bool in = false);
 	
 	static triangulateio *		InputToTriangulateio		(const std::vector<v2d> & input_points, const std::vector<v2i> & input_segments);
+	static triangulateio *		InputToTriangulateioWithHole(const std::vector<v2d> & input_points, const std::vector<v2i> & input_segments, const std::vector<v2d> & input_holes);
 	static triangulateio *		ComputeMeshByTriangle		(triangulateio * tio);
+	static void					TriangulateioToFile			(triangulateio * tio,string filename);
 	static void					TriangulateioToOutput		(triangulateio * tio, rmsmesh::TriangleMesh & mesh);
 
 	/* point and polygon */

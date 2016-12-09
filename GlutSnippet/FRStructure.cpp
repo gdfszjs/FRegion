@@ -184,12 +184,11 @@ void FRSNode::codeFRSNode(FRSTree * tree, int treenum, int partnum)
 		}
 
 	}
-	cout << h_x << " " << h_y << endl;
-	cout << l_x << " " << l_y << endl;
+	//cout << h_x << " " << h_y << endl;
+	//cout << l_x << " " << l_y << endl;
 	//»®·Örange
 	double height = h_y - l_y;
 	int rangeindex = 8;
-	bool done = false;
 	vector<vector<vector<v2d>>> range_vector;
 	for (int i = 0; i < rangeindex; i++)
 	{
@@ -256,7 +255,7 @@ void FRSNode::codeFRSNode(FRSTree * tree, int treenum, int partnum)
 		if (abs(ele_vector.at(0)[0] - ele_vector.back()[0]) <= 0.001 && abs(ele_vector.at(0)[1] == ele_vector.back()[1]) <= 0.001)
 		{
 			int start_index = 0;
-			cout << "is a circle!" << endl;
+			//cout << "is a circle!" << endl;
 			for (int j = 0; j < ele_vector.size(); j++)
 			{
 				if (j != 0 && j != ele_vector.size() - 1)
@@ -267,7 +266,7 @@ void FRSNode::codeFRSNode(FRSTree * tree, int treenum, int partnum)
 						break;
 					}
 				}
-			}	
+			}
 			point_vilage.push_back(start_index);
 			int k = start_index + 1;
 			while (k != start_index)
@@ -382,6 +381,8 @@ void FRSNode::codeFRSNode(FRSTree * tree, int treenum, int partnum)
 
 		}
 
+
+
 	}
 
 
@@ -390,8 +391,8 @@ void FRSNode::codeFRSNode(FRSTree * tree, int treenum, int partnum)
 	{
 		stringstream ss;
 		string line;
-		ss << "D:\\MRGTrueFile\\" << treenum + 1 << "\\"<< partnum + 1 << "\\0 " << i << " " << i + 1 << ".txt";
-		cout << ss.str() << endl;
+		ss << "D:\\MRGTrueFile\\" << treenum + 1 << "\\" << partnum + 1 << "\\0 " << i << " " << i + 1 << ".txt";
+		//cout << ss.str() << endl;
 		ofstream f1(ss.str());
 		for (int j = 0; j < range_vector.at(i).size(); j++)
 		{
@@ -404,7 +405,178 @@ void FRSNode::codeFRSNode(FRSTree * tree, int treenum, int partnum)
 		f1.close();
 	}
 
-	cout << "end coding" << endl;
+	//cout << "end coding" << endl;
+}
+
+void FRSNode::codeForTriangle(FRSTree * tree, int treenum, int partnum)
+{
+	vector<v2d> nodes_vector;
+	vector<v2d> ns_vector;
+	vector<v2i> es_vector;
+	vector<v2d> hs_vector;
+	vector<vector<v2d>> elements_vector;
+	int sample_number = 5;
+	int frnode_number = 0;
+	int vertices_number = 0;
+	FRNode *l_b = NULL;
+	//sample all the frnode
+	for (size_t i = 0; i < this->frnode_indices_.size(); i++)
+	{
+		l_b = tree->all_frnodes_.at(this->frnode_indices_.at(i));
+		frnode_number++;
+		//line == 0
+		//bezier == 1
+		if (l_b->NodeType() == 0)
+		{
+			if (l_b->pts(0)[0] == l_b->pts(1)[0] && l_b->pts(0)[1] == l_b->pts(1)[1])
+			{
+				continue;
+			}
+			else 
+			{
+				vector<v2d> sample;
+				l_b->SamplePoints(sample, 1.0 / sample_number);
+				for (int j = 0; j < sample.size(); j++)
+				{
+					nodes_vector.push_back(_v2d_(sample.at(j)[0], sample.at(j)[1]));
+					vertices_number++;
+				}
+			}
+		}
+		else
+		{
+			vector<v2d> sample;
+			l_b->SamplePoints(sample, 1.0 / sample_number);
+			for (int j = 0; j < sample.size(); j++)
+			{
+				nodes_vector.push_back(_v2d_(sample.at(j)[0], sample.at(j)[1]));
+				vertices_number++;
+			}
+		}
+
+	}
+	//sample all the element
+	for (int i = 0; i < this->element_indices_.size(); i++)
+	{
+		vector<v2d> segments_vector;
+		SVGElement * e = tree->pattern_->elements_.at(this->element_indices_.at(i));
+
+		//concat all the segs
+		for (int j = 0; j < e->segs_.size(); j++)
+		{
+			ElementSeg * ee = e->segs_.at(j);
+			if (ee->SegType() == 0)
+			{
+				vector<v2d> sample;
+				ee->collectPoints(sample, 1.0 / sample_number);
+				for (int k = 0; k < sample.size(); k++)
+				{
+					segments_vector.push_back(_v2d_(sample.at(k)[0], sample.at(k)[1]));
+					vertices_number++;
+				}
+			}
+			else
+			{
+				vector<v2d> sample;
+				ee->collectPoints(sample, 1.0 / sample_number);
+				for (int k = 0; k < sample.size(); k++)
+				{
+					segments_vector.push_back(_v2d_(sample.at(k)[0], sample.at(k)[1]));
+					vertices_number++;
+				}
+			}
+		}
+		elements_vector.push_back(segments_vector);
+	}
+
+	//save in the file
+	int segments_number = 0;
+	stringstream ss;
+	string line;
+	ss << "D:\\MRGTrueFile\\" << treenum + 1 << "\\" << partnum + 1 << "\\nodeinformation.txt";
+	//cout << ss.str() << endl;
+	ofstream f1(ss.str());
+
+	f1 << vertices_number << " " << 2 << " " << 0 << " " << 0 << endl;
+
+	//save the frnode
+	for (int i = 0; i < nodes_vector.size(); i++)
+	{
+		f1 << i + 1 << " " << nodes_vector.at(i)[0] << " " << nodes_vector.at(i)[1] << endl;
+		ns_vector.push_back(_v2d_(nodes_vector.at(i)[0], nodes_vector.at(i)[1]));
+	}
+	//save the element
+	int index = nodes_vector.size() + 1;
+	for (int i = 0; i < elements_vector.size(); i++)
+	{
+		for (int j = 0; j < elements_vector.at(i).size(); j++)
+		{
+			f1 << index++ << " " << elements_vector.at(i).at(j)[0] << " " << elements_vector.at(i).at(j)[1] << endl;
+			ns_vector.push_back(_v2d_(elements_vector.at(i).at(j)[0], elements_vector.at(i).at(j)[1]));
+		}
+	}
+	f1 << vertices_number << " " << 0 << endl;
+
+	//save line between the frnodes
+	for (int i = 0; i < nodes_vector.size(); i++)
+	{
+		if (i == nodes_vector.size() - 1)
+		{
+			f1 << i + 1 << " " << nodes_vector.size() << " " << 1 << endl;
+			es_vector.push_back(_v2i_(nodes_vector.size() - 1,0));
+		}
+		else
+		{
+			f1 << i + 1 << " " << i + 1 << " " << i + 2 << endl;
+			es_vector.push_back(_v2i_(i, i + 1));
+		}
+	}
+	//save line between the segments
+	index = nodes_vector.size();
+	int element_index = 0;
+	for (int i = 0; i < elements_vector.size(); i++)
+	{
+		for (int j = 0; j < elements_vector.at(i).size(); j++)
+		{
+			if (j == elements_vector.at(i).size() - 1)
+			{
+				f1 << index + element_index + j + 1 << " " << index + element_index + j + 1 << " " << index + element_index + 1 << endl;
+				es_vector.push_back(_v2i_(index + element_index + j, index + element_index + 0));
+			}
+			else 
+			{
+				f1 << index + element_index + j + 1 << " " << index + element_index + j + 1 << " " << index + element_index + j + 2 << endl;
+				es_vector.push_back(_v2i_(index + element_index + j, index + element_index + j + 1));
+			}
+		}
+		element_index += elements_vector.at(i).size();
+	}
+
+	//save the hole
+	f1 << elements_vector.size() << endl;
+	for (int i = 0; i < elements_vector.size(); i++) 
+	{
+		double hole_x = (elements_vector.at(i).at(0)[0] + elements_vector.at(i).at(3)[0]) / 2.0;
+		double hole_y = (elements_vector.at(i).at(0)[1] + elements_vector.at(i).at(3)[1]) / 2.0;
+		f1 << i + 1 << " " << hole_x << " " << hole_y << endl;
+		hs_vector.push_back(_v2d_(hole_x,hole_y));
+	}
+	f1.close();
+
+	triangulateio *in = NULL;
+	triangulateio *out = NULL;
+	stringstream sss;
+	string filename;
+	sss << "D:\\MRGTrueFile\\" << treenum + 1 << "\\" << partnum + 1 << "\\";
+	filename = sss.str();
+	if (hs_vector.size() == 0)
+	{
+		in = Geo2D::InputToTriangulateio(ns_vector, es_vector);
+	}
+	else in = Geo2D::InputToTriangulateioWithHole(ns_vector,es_vector,hs_vector);
+	out = Geo2D::ComputeMeshByTriangle(in);
+	Geo2D::TriangulateioToFile(out,filename);
+
 }
 
 void FRSNode::BinaryTreeTo1DArray(int * arr, int index)

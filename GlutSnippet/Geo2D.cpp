@@ -315,17 +315,87 @@ triangulateio * Geo2D::InputToTriangulateio(const std::vector<v2d> & input_point
 	return ans;
 }
 
+triangulateio * Geo2D::InputToTriangulateioWithHole(const std::vector<v2d> & input_points, const std::vector<v2i> & input_segments, const std::vector<v2d> & input_holes)
+{
+	struct triangulateio * ans;
+	Geo2D::InitTriangulateio(&ans);
+
+	ans->numberofpoints = (int)(input_points.size());
+
+	if (ans->numberofpoints == 0) return ans;
+
+	ans->pointlist = (REAL *)malloc(ans->numberofpoints * 2 * sizeof(REAL));
+
+	for (int i = 0; i<ans->numberofpoints; i++)
+	{
+		ans->pointlist[i * 2] = input_points[i][0];
+		ans->pointlist[i * 2 + 1] = input_points[i][1];
+	}
+
+	ans->numberofsegments = (int)(input_segments.size());
+
+	ans->segmentlist = (int *)malloc(ans->numberofsegments * 2 * sizeof(int));
+
+	for (int i = 0; i<ans->numberofsegments; i++)
+	{
+		ans->segmentlist[i * 2] = input_segments[i][0];
+		ans->segmentlist[i * 2 + 1] = input_segments[i][1];
+	}
+
+	ans->numberofholes = (int)(input_holes.size());
+
+	ans->holelist = (REAL *)malloc(ans->numberofholes * 2 * sizeof(REAL));
+
+	for (int i = 0; i<ans->numberofholes; i++)
+	{
+		ans->holelist[i * 2] = input_holes[i][0];
+		ans->holelist[i * 2 + 1] = input_holes[i][1];
+	}
+
+	return ans;
+}
+
 triangulateio * Geo2D::ComputeMeshByTriangle(triangulateio * tio)
 {
 	struct triangulateio * ans, * vorout;
 	Geo2D::InitTriangulateio(&ans);
 	Geo2D::InitTriangulateio(&vorout);
 
-	triangulate("zpqa500Q",tio,ans,vorout);
+	triangulate("zpa100nQ",tio,ans,vorout);
 
 	Geo2D::FreeTriangulateio(&vorout);
 
 	return ans;
+}
+
+void Geo2D::TriangulateioToFile(triangulateio * tio,string filename)
+{
+	ofstream f1(filename + "node.node");
+	ofstream f2(filename + "element.ele");
+	ofstream f3(filename + "neighbor.neig");
+	f1 << tio->numberofpoints << " " << 2 << " " << 0 << " " << 1 << endl;
+	for (int i = 0; i<tio->numberofpoints; i++)
+	{
+		Wml::Vector2f vert((float)(tio->pointlist[i * 2]), (float)(tio->pointlist[i * 2 + 1]));
+		f1 << i << " " << tio->pointlist[i * 2] << " " << tio->pointlist[i * 2 + 1] << " " << tio->pointmarkerlist[i] << endl;
+	}
+	f1 << "#";
+	f2 << tio->numberoftriangles << " " << 3 << " " << 0 << endl;
+	for (int i = 0; i<tio->numberoftriangles; i++)
+	{
+		unsigned int tri[3] = { tio->trianglelist[i * 3] , tio->trianglelist[i * 3 + 1], tio->trianglelist[i * 3 + 2] };
+		f2 << i << " " << tio->trianglelist[i * 3] << " " << tio->trianglelist[i * 3 + 1] << " " << tio->trianglelist[i * 3 + 2] << endl;
+	}
+	f2 << "#";
+	f3 << tio->numberoftriangles << " " << 3 <<endl;
+	for (int i = 0; i < tio->numberoftriangles; i++)
+	{
+		unsigned int tri[3] = {tio->neighborlist[i * 3],tio->neighborlist[i * 3 + 1],tio->neighborlist[i * 3 + 2] };
+		f3 << i << " " << tio->neighborlist[i * 3] << " " << tio->neighborlist[i * 3 + 1] << " " << tio->neighborlist[i * 3 + 2] << endl;
+	}
+	f1.close();
+	f2.close();
+	f3.close();
 }
 
 void Geo2D::TriangulateioToOutput(triangulateio * tio, rmsmesh::TriangleMesh & mesh)

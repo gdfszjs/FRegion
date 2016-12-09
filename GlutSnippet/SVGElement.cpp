@@ -367,19 +367,41 @@ double ElementSegLine::DistanceFromPoint(const v2d & pt)
 
 void ElementSegLine::getsamplepoint()
 {
-	double half_num = 50.0;
-	for (int i = 0; i < half_num; i++)
+	//直线上取样的100个点
+	int numberOfPoints = 100;
+	double s_x = pts_[0][0];
+	double s_y = pts_[0][1];
+	double e_x = pts_[1][0];
+	double e_y = pts_[1][1];
+	double r_x = 0;
+	double r_y = 0;
+	if (s_x == e_x)
 	{
-		double x = (pts_[0][0] + i / half_num * pts_[1][0]) / (1 + i / half_num);
-		double y = (pts_[0][1] + i / half_num * pts_[1][1]) / (1 + i / half_num);
-		this->samplepoints.push_back(_v2d_(x,y));
+		for (int i = 0; i < numberOfPoints; i++)
+		{
+			r_x = s_x;
+			r_y = s_y + (s_y - e_y) * (i * 1.0 / numberOfPoints);
+			samplepoints.push_back(_v2d_(r_x, r_y));
+		}
 	}
-
-	for (int i = 50; i < 50; i++)
+	else if (s_y == e_y)
 	{
-		double x = (pts_[1][0] + i / half_num * pts_[0][0]) / (1 + i / half_num);
-		double y = (pts_[1][1] + i / half_num * pts_[0][1]) / (1 + i / half_num);
-		this->samplepoints.push_back(_v2d_(x, y));
+		for (int i = 0; i < numberOfPoints; i++)
+		{
+			r_x = s_x + (s_x - e_x) * (i * 1.0 / numberOfPoints);
+			r_y = s_y;
+			samplepoints.push_back(_v2d_(r_x, r_y));
+		}
+	}
+	else
+	{
+		for (int i = 0; i < numberOfPoints; i++)
+		{
+			double x_range = s_x - s_y;
+			double r_x = s_x + (s_x - e_x) * (i * 1.0 / numberOfPoints) * i;
+			double r_y = (e_y - s_y) / (e_x - s_x) * (r_x - s_x) + s_y;
+			samplepoints.push_back(_v2d_(r_x,r_y));
+		}
 	}
 }
 
@@ -577,7 +599,7 @@ void ElementSegBezier::getsamplepoint()
 
 		x = (ax * tCubed) + (bx * tSquared) + (cx * t) + pts_[0][0];
 		y = (ay * tCubed) + (by * tSquared) + (cy * t) + pts_[0][1];
-		cout << x << " " << y << endl;
+		//cout << x << " " << y << endl;
 		this->samplepoints.push_back(_v2d_(x, y));
 	}
 }

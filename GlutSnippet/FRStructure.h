@@ -16,7 +16,7 @@ public:
 	double				SecondEndpointGlobalProportion(FRSTree * tree);
 	void				Compute_n_and_t_ByGlobalProportion(FRSTree * tree, double p, int & n, double & t);
 	void				codeFRSNode(FRSTree * tree, int treenum, int partnum);
-
+	void				codeForTriangle(FRSTree * tree, int treenum, int partnum);
 	void				BinaryTreeTo1DArray(int * arr, int index);
 
 	void				SampleNPoints(std::vector<v2d> & pts, int N, FRSTree * tree);
